@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tu hogar en el espacio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Herramienta educativa para diseñar hábitats espaciales — recursos, retos y herramientas para estudiantes." />
+    <style>
+      /* ----------------- GLOBAL ----------------- */
+      html {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        color: #fff;
+        scroll-behavior: smooth;
+      }
+      :root {
+        --accent: #0071e3;
+        --yellow: #ffeb3b;
+        --card: rgba(10,10,12,0.85);
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+        background: #000;
+        overflow-x: hidden;
+      }
+
+      /* ----------------- NAVBAR ----------------- */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: rgba(0,0,0,0.6);
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        backdrop-filter: blur(12px);
+        padding: 0.8rem 1.25rem;
+      }
+      nav {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      nav .logo img {
+        height: 56px;
+        border-radius: 8px;
+        display: block;
+      }
+      nav .menu {
+        display: flex;
+        gap: 1rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      nav .menu li { display: inline-block; }
+      nav .menu li a { text-decoration: none; }
+
+      /* ---------- BOTONES NAV (Uiverse) ---------- */
+      nav .menu li a button {
+        --green: #1BFD9C;
+        font-size: 15px;
+        padding: 0.7em 1.8em;
+        letter-spacing: 0.06em;
+        position: relative;
+        font-family: inherit;
+        border-radius: 0.6em;
+        overflow: hidden;
+        transition: all 0.3s;
+        line-height: 1.4em;
+        border: 2px solid var(--green);
+        background: linear-gradient(to right, rgba(27, 253, 156, 0.1) 1%, transparent 40%, transparent 60%, rgba(27, 253, 156, 0.1) 100%);
+        color: var(--green);
+        cursor: pointer;
+        box-shadow: inset 0 0 10px rgba(27, 253, 156, 0.4), 
+                    0 0 9px 3px rgba(27, 253, 156, 0.1);
+      }
+      nav .menu li a button:hover {
+        color: #82ffc9;
+        box-shadow: inset 0 0 10px rgba(27, 253, 156, 0.6), 
+                    0 0 9px 3px rgba(27, 253, 156, 0.2);
+      }
+      nav .menu li a button:before {
+        content: "";
+        position: absolute;
+        left: -4em;
+        width: 4em;
+        height: 100%;
+        top: 0;
+        transition: transform .4s ease-in-out;
+        background: linear-gradient(to right, transparent 1%, rgba(27, 253, 156, 0.1) 40%, rgba(27, 253, 156, 0.1) 60%, transparent 100%);
+      }
+      nav .menu li a button:hover:before { transform: translateX(15em); }
+
+      /* ----------------- HERO ----------------- */
+      .hero {
+        text-align: center;
+        padding: 6.5rem 1rem 4rem 1rem;
+        z-index: 1;
+        position: relative;
+      }
+      .hero h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 0.6rem;
+        text-shadow: 0 6px 30px rgba(0,0,0,0.7);
+        color: var(--yellow);
+      }
+      .hero p.lead {
+        font-size: 1.15rem;
+        color: #e6e6e6;
+        max-width: 820px;
+        margin: 0.25rem auto 1.6rem auto;
+        line-height: 1.7;
+      }
+      .subline {
+        color: #cfd8ff;
+        opacity: 0.9;
+        font-size: 0.95rem;
+        margin-bottom: 1.2rem;
+      }
+
+      /* ----------------- BOTÓN BRÚJULA ----------------- */
+      .button {
+        width: 180px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background-color: rgb(161, 255, 20);
+        border-radius: 30px;
+        color: #111;
+        font-weight: 700;
+        border: none;
+        position: relative;
+        cursor: pointer;
+        transition: all .3s;
+        margin: 0 auto;
+        text-decoration: none;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+      }
+      .button:hover { background: rgb(192, 255, 20); transform: translateY(-3px); }
+      .button:active { transform: scale(0.98); }
+      .svgIcon { height: 26px; width: 26px; transition: 1.2s; }
+      .compass { fill: #111; }
+      .button:hover .svgIcon { transform: rotate(250deg); }
+
+      /* ----------------- SECCIONES ----------------- */
+      .section { padding: 3.75rem 1rem; max-width: 1200px; margin: 0 auto; }
+      .columns { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; }
+      .column {
+        flex: 1 1 350px;
+        background: var(--card);
+        padding: 22px;
+        border-radius: 14px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        min-width: 280px;
+      }
+      .column:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,0.65); }
+      .column h2 { color: var(--yellow); }
+
+      /* ----------------- CINTA DE IMÁGENES ----------------- */
+      .imagenes {
+        width: 320px;
+        height: 500px;
+        background: #0e0e10;
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+      }
+      .cinta {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        animation: moverVertical 20s linear infinite;
+      }
+      .cinta img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 6px;
+        margin: 12px 0;
+      }
+      @keyframes moverVertical {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(-50%); }
+      }
+      .imagenes:hover .cinta { animation-play-state: paused; }
+
+      /* ----------------- CONTROLES ----------------- */
+      .controles { margin-top: 12px; text-align: center; }
+      .controles button {
+        background: var(--accent);
+        border: none;
+        color: #fff;
+        font-weight: 700;
+        padding: 8px 14px;
+        margin: 0 8px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .controles button:hover { transform: translateY(-3px); background: #005bb5; }
+
+      /* ----------------- CARDS INFO ESTÉTICAS ----------------- */
+      .info-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+        justify-items: center;
+      }
+      .card {
+        width: 100%;
+        max-width: 320px;
+        min-height: 230px;
+        background: linear-gradient(145deg, #1a1f24, #243137);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.5s ease-in-out;
+        padding: 1.5rem;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.65);
+      }
+      .card:hover {
+        transform: scale(1.05) translateY(-6px);
+        box-shadow: 0 18px 45px rgba(189, 159, 103, 0.35);
+      }
+      .card .border {
+        position: absolute;
+        inset: 0px;
+        border: 2px solid #bd9f67;
+        opacity: 0;
+        transform: rotate(10deg);
+        transition: all 0.5s ease-in-out;
+        border-radius: 14px;
+      }
+      .card:hover .border {
+        inset: 10px;
+        opacity: 1;
+        transform: rotate(0);
+      }
+      .card h3 {
+        color: #f5d27a;
+        font-size: 1.35rem;
+        margin-bottom: 0.6rem;
+        text-align: center;
+        font-weight: 700;
+        text-shadow: 0px 2px 12px rgba(189, 159, 103, 0.4);
+      }
+      .card p {
+        font-size: 1rem;
+        color: #d1d5db;
+        line-height: 1.6;
+        text-align: center;
+        margin: 0;
+      }
+      .card:hover h3, .card:hover p {
+        color: #fff8e7;
+        text-shadow: 0px 0px 12px rgba(255, 215, 140, 0.7);
+      }
+
+      /* ----------------- RESPONSIVE ----------------- */
+      @media (max-width: 880px) {
+        .column { flex: 1 1 100%; max-width: 720px; }
+        .hero h1 { font-size: 2.2rem; }
+      }
+      @media (max-width: 480px) {
+        .hero { padding-top: 4.5rem; }
+        .button { width: 160px; }
+        .imagenes { width: 92%; height: 360px; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- VIDEO FONDO -->
+    <video autoplay loop muted playsinline style="position:fixed; right:0; bottom:0; min-width:100vw; min-height:100vh; object-fit:cover; z-index:-1;">
+      <source src="img/WhatsApp Video 2025-09-30 at 10.15.12.mp4" type="video/mp4">
+    </video>
+
+    <!-- NAVBAR -->
+    <header>
+      <nav>
+        <div class="logo">
+          <img src="img/WhatsApp Image 2025-09-14 at 16.39.04.jpeg" alt="Logo" />
+        </div>
+        <ul class="menu">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="integrantes.html">Reto</a></li>
+          <li><a href="orrery.html">Integrantes</a></li>
+          <li><a href="galeria.html">Tormentas</a></li>
+          <li><a href="https://sdo.gsfc.nasa.gov/data/">Planetas</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <section id="inicio" class="hero">
+      <h1>Tu hogar en el espacio</h1>
+
+      <a href="integrantes.html" class="button">
+        <svg class="svgIcon" viewBox="0 0 512 512">
+          <path class="compass"
+            d="M256 8C119 8 8 119 8 256s111 248 248 
+               248 248-111 248-248S393 8 256 8zm0 
+               448c-110.5 0-200-89.5-200-200S145.5 
+               56 256 56s200 89.5 200 200-89.5 200-200 
+               200zm92-308l-52 140-140 52 52-140 140-52zm-92 
+               100a28 28 0 1 0 0 56 28 28 0 1 0 0-56z"/>
+        </svg>
+        Equipo de trabajo
+      </a>
+    </section>
+
+    <!-- SECCIÓN VISIÓN -->
+    <section id="vision" class="section">
+      <div class="columns">
+        <div class="column">
+          <h2>Visión de la NASA</h2>
+          <p>La NASA planea repatriar humanos a la Luna y permitir una presencia sostenida allí mediante la campaña Artemis.</p>
+        </div>
+        <div class="column">
+          <h2>Imágenes & Simulación</h2>
+          <div class="imagenes">
+            <div class="cinta">
+              <img src="img/nasa-fotografía-mexico-espacio.webp" alt="Imagen satelital 1" />
+              <img src="img/WhatsApp Image 2025-09-30 at 13.24.53.jpeg" alt="Imagen satelital 2" />
+              <img src="img/WhatsApp Image 2025-09-30 at 14.29.14.jpeg" alt="Imagen satelital 3" />
+              <img src="img/ChatGPT Image 30 sept 2025, 07_08_53 p.m..png" alt="Imagen satelital 4" />
+            </div>
+          </div>
+          <div class="controles">
+            <button id="masRapido">⏩</button>
+            <button id="masLento">⏪</button>
+            <button id="pausa">⏸️</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN RETOS / INFO EXTRA -->
+    <section id="retos" class="section">
+      <h2 style="text-align:center; color:var(--yellow);">Retos y preguntas clave</h2>
+      <div class="info-section">
+        <div class="card">
+          <div class="border"></div>
+          <h3>1. Convivencia en el espacio</h3>
+          <p>Respetar el espacio personal de cada miembro, mantener comunicación clara y cumplir tareas compartidas para el bienestar del grupo.</p>
+        </div>
+        <div class="card">
+          <div class="border"></div>
+          <h3>2. Materiales en Marte</h3>
+          <p>Regolito prensado, materiales inflables con recubrimientos y aleaciones ligeras como aluminio serían ideales por su resistencia y facilidad de transporte.</p>
+        </div>
+        <div class="card">
+          <div class="border"></div>
+          <h3>3. Tormentas solares</h3>
+          <p>Requieren paredes gruesas con regolito o agua, una sala segura reforzada y blindaje eléctrico para proteger a los astronautas.</p>
+        </div>
+        <div class="card">
+          <div class="border"></div>
+          <h3>4. Vida diaria en el hábitat</h3>
+          <p>La rutina sería más estricta: oxígeno, agua, comida y recreación controlada. El aislamiento aumenta la presión psicológica, pero refuerza el trabajo en equipo.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCRIPT -->
+    <script>
+      (function(){
+        const cinta = document.querySelector(".cinta");
+        if(cinta && !cinta.dataset.duplicated){
+          cinta.innerHTML += cinta.innerHTML;
+          cinta.dataset.duplicated = "true";
+        }
+      })();
+      let velocidad = 20;
+      const imagenes = document.querySelector(".cinta");
+      function actualizarVelocidad() {
+        if(imagenes) imagenes.style.animation = `moverVertical ${velocidad}s linear infinite`;
+      }
+      actualizarVelocidad();
+      document.getElementById("masRapido").onclick = () => { if(velocidad > 5) velocidad -= 5; actualizarVelocidad(); }
+      document.getElementById("masLento").onclick = () => { velocidad += 5; actualizarVelocidad(); }
+      document.getElementById("pausa").onclick = () => {
+        if (!imagenes) return;
+        imagenes.style.animationPlayState = getComputedStyle(imagenes).animationPlayState === "paused" ? "running" : "paused";
+      }
+    </script>
+  </body>
+</html>
